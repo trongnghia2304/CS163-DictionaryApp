@@ -4,23 +4,9 @@
 // alphabet: ASCII 32-127 (all printable characters)
 // For Dictionary project (with special characters like -, $, #...)
 using namespace std;
-const int ALP=96;
+#include "Trie.h"
 
-struct TrieNode {
-    int cnt;
-    TrieNode *c[ALP];
-    bool isEndOfWord;
-    string meaning;
-
-    TrieNode() {
-        cnt=0;
-        for(int i=0; i<ALP; ++i)
-            c[i]=nullptr;
-        isEndOfWord=false;
-    }
-};
-
-void insert(TrieNode *&root, string s, string meaning) {
+void insert(TrieNode *&root, string &s, string &meaning) {
     int n=s.size();
     TrieNode *cur=root;
     for(int i=0; i<n; ++i) {
@@ -33,20 +19,37 @@ void insert(TrieNode *&root, string s, string meaning) {
     cur->meaning=meaning;
 }
 
-bool lookUpMeaning(TrieNode *root, string s, string &meaning) {
+vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s) {
     int n=s.size();
     TrieNode *cur=root;
 
     for(int i=0; i<n; ++i) {
         int nxt=int(s[i]-32);
-        if(!cur->c[nxt]) return false;
+        if(!cur->c[nxt]) return {};
         cur=cur->c[nxt];
     }
 
-    if(!cur->isEndOfWord) return false;
+    // BFS to check all strings exist on trie with s as prefix
+    vector <pair<string, string>> v;
+    queue <pair<string, TrieNode*>> q;
+    q.push({s, cur});
+    while(q.size()) {
+        pair<string, TrieNode*> tmp=q.front();
+        q.pop();
 
-    meaning=cur->meaning;
-    return true;
+        if(tmp.second->isEndOfWord)
+            v.push_back({tmp.first, tmp.second->meaning});
+        
+        for(int i=0; i<ALP; ++i) {
+            if(tmp.second->c[i]) {
+                string nS=tmp.first;
+                nS+=char(32+i);
+                q.push({nS, tmp.second->c[i]});
+            }
+        }
+    }
+
+    return v;
 }
 
 void Deallocate(TrieNode* &root) {
@@ -88,29 +91,4 @@ TrieNode* remove(TrieNode* &root, string key, int len=0) {
     }
 
     return root;
-}
-
-int main() {
-    TrieNode* root=nullptr;
-    root=new TrieNode();
-
-    insert(root, "Coffee", "Ca phe");
-    insert(root, "Tea", "Tra");
-    insert(root, "Nghiem", "Con ga bac phoi");
-    remove(root, "Tea", 0);
-
-    string s;
-    cin >> s;
-    
-    string meaning="";
-    if(lookUpMeaning(root, s, meaning)) {
-        cout << "Word: " << s << '\n';
-        cout << "Meaning: " << meaning << '\n';
-    }
-
-    else {
-        cout << "The word " << s << " doesn't exist in the dictionary.\n";
-    }
-
-    Deallocate(root);
 }
