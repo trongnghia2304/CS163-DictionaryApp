@@ -24,6 +24,40 @@ void insert(TrieNode *&root, string s, string meaning) {
     cur->meaning=meaning;
 }
 
+bool lookUpMeaning1(TrieNode* root, string s, string& meaning) {
+    int n = s.size();
+    TrieNode* cur = root;
+
+    for (int i = 0; i < n; ++i) {
+        int nxt = int(s[i] - 32);
+        if (!cur->c[nxt]) return false;
+        cur = cur->c[nxt];
+    }
+
+    if (!cur->isEndOfWord) return false;
+
+    meaning = cur->meaning;
+    return true;
+}
+
+bool EditDefination(TrieNode*& root, string s, string change)
+{
+    int n = s.size();
+    TrieNode* curr = root;
+
+    for (int i = 0; i < n; ++i)
+    {
+        int nxt = int(s[i] - 32);
+        if (!curr->c[nxt]) return false;
+        curr = curr->c[nxt];
+    }
+
+    if (!curr->isEndOfWord) return false;
+    curr->meaning = change;
+    return true;
+}
+
+
 // DFS to check all strings exist on trie with s as prefix
 void traverse(vector <pair<string, string>> &v, TrieNode* root, string s) {
     if(root->isEndOfWord)
