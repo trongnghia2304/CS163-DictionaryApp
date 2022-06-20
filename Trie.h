@@ -1,7 +1,9 @@
 #pragma once
-#include <string>
+#include <iostream>
+#include <algorithm>
 #include <vector>
-#include <queue>
+#include <string>
+
 using namespace std;
 const int ALP=96;
 
@@ -19,8 +21,8 @@ struct TrieNode {
     }
 };
 
-void insert(TrieNode *&root, string s, string &meaning);
-vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s);
+void insert(TrieNode *&root, string s, string meaning);
+vector < pair<string, string> > lookUpMeaning(TrieNode *root, string s);
 void Deallocate(TrieNode* &root);
 bool isEmpty(TrieNode* root);
-TrieNode* remove(TrieNode* &root, string key, int len=0);
+TrieNode* remove(TrieNode* &root, string key, int len);

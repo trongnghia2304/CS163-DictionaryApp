@@ -1,12 +1,16 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
+#include <string>
 
 // alphabet: ASCII 32-127 (all printable characters)
 // For Dictionary project (with special characters like -, $, #...)
 using namespace std;
 #include "Trie.h"
 
-void insert(TrieNode *&root, string &s, string &meaning) {
+void insert(TrieNode *&root, string s, string meaning) {
+    if(!root)
+        root=new TrieNode();
     int n=s.size();
     TrieNode *cur=root;
     for(int i=0; i<n; ++i) {
@@ -19,7 +23,7 @@ void insert(TrieNode *&root, string &s, string &meaning) {
     cur->meaning=meaning;
 }
 
-vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s) {
+vector < pair<string, string> > lookUpMeaning(TrieNode *root, string s) {
     int n=s.size();
     TrieNode *cur=root;
 
@@ -30,13 +34,12 @@ vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s) {
     }
 
     // BFS to check all strings exist on trie with s as prefix
-    vector <pair<string, string>> v;
-    queue <pair<string, TrieNode*>> q;
-    q.push({s, cur});
+    vector < pair<string, string> > v;
+    vector < pair<string, TrieNode*> > q;
+    q.push_back({s, cur});
     while(q.size()) {
-        pair<string, TrieNode*> tmp=q.front();
-        q.pop();
-
+        pair<string, TrieNode*> tmp=q[0];
+        q.erase(q.begin());
         if(tmp.second->isEndOfWord)
             v.push_back({tmp.first, tmp.second->meaning});
         
@@ -44,7 +47,7 @@ vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s) {
             if(tmp.second->c[i]) {
                 string nS=tmp.first;
                 nS+=char(32+i);
-                q.push({nS, tmp.second->c[i]});
+                q.push_back({nS, tmp.second->c[i]});
             }
         }
     }
@@ -68,7 +71,7 @@ bool isEmpty(TrieNode* root) {
     return true;
 }
 
-TrieNode* remove(TrieNode* &root, string key, int len=0) {
+TrieNode* remove(TrieNode* &root, string key, int len) {
     if(!root || len>key.size()) return nullptr;
 
     if(len==key.size()) {
