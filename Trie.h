@@ -22,7 +22,8 @@ struct TrieNode {
 };
 
 void insert(TrieNode *&root, string s, string meaning);
-vector < pair<string, string> > lookUpMeaning(TrieNode *root, string s);
+void traverse(vector <pair<string, string>> &v, TrieNode* root, string s);
+vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s);
 void Deallocate(TrieNode* &root);
 bool isEmpty(TrieNode* root);
 TrieNode* remove(TrieNode* &root, string key, int len);
