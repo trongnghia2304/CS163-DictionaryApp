@@ -127,3 +127,17 @@ TrieNode* remove(TrieNode* &root, string key, int len) {
 
     return root;
 }
+
+vector <string> viewHistory()
+{
+    ifstream fin;
+    fin.open("lookedupWords.txt");
+    vector <string> v;
+    while (getline(fin, s) != '\n')
+    {
+        v.push_back(s);
+    }
+
+    fin.close("lookedupWords.txt");
+    return v;
+}
