@@ -2,6 +2,8 @@
 #include "mainmenu.h"
 #include "textbox.h"
 #include "button.h"
+#include "Trie.h"
+
 
 int main()
 {
@@ -13,6 +15,9 @@ int main()
 	sf::Sprite spriteBG;
 	spriteBG.setTexture(bgText);
 
+	TrieNode* root = nullptr;
+	root = new TrieNode();
+	insert(root, "hello", "xin chao");
 
 
 
@@ -109,7 +114,19 @@ bg:
 			language.setscaleAndOut(2.f, 255, 102, 0);
 			int langcheck = 1;
 
+			Textbox definationoRKey(30, sf::Color::White, false);
+			definationoRKey.newstring("DEFINATION:");
+			definationoRKey.setFont(font);
+			definationoRKey.setPosition({ 400.f,200.f });
 
+
+			//express content when inputing
+			Textbox expressOutWord(30, sf::Color::White, false);
+			expressOutWord.newstring("Meaning");
+			expressOutWord.setFont(font);
+			expressOutWord.setPosition({ 500.f,250.f });
+			std::string meaning;
+			std::string key;
 
 			while (windowLang.isOpen())
 			{
@@ -141,6 +158,7 @@ bg:
 						}
 						if (posx > 367 && posx < 986 && posy>99 && posy < 153)
 						{
+							noidungnhap.clearString();
 							noidungnhap.setSelected(true);
 						}
 						else
@@ -157,6 +175,19 @@ bg:
 					if (eventLang.type == sf::Event::TextEntered)
 					{
 						noidungnhap.typeOn(eventLang);
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+					{
+						noidungnhap.setSelected(false);
+
+						key = noidungnhap.getText();
+						bool check = lookUpMeaning1(root, key, meaning);
+						if (check)
+							expressOutWord.newstring(meaning);
+						else
+							expressOutWord.newstring("NOT WORD");
+
+
 					}
 					if (language.isKickMouse(windowLang))
 					{
@@ -178,6 +209,8 @@ bg:
 				windowLang.draw(spriteBgLang);
 				windowLang.draw(khungnhap);
 				noidungnhap.drawTo(windowLang);
+				expressOutWord.drawTo(windowLang);
+				definationoRKey.drawTo(windowLang);
 				language.drawTo(windowLang);
 				windowLang.display();
 			}
@@ -207,4 +240,5 @@ bg:
 		nutExit.drawTo(window);
 		window.display();
 	}
+	Deallocate(root);
 }

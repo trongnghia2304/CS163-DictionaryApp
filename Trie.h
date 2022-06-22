@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 const int ALP=96;
