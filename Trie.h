@@ -29,3 +29,6 @@ vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s);
 void Deallocate(TrieNode* &root);
 bool isEmpty(TrieNode* root);
 TrieNode* remove(TrieNode* &root, string key, int len);
+void deleteHistory();
+void savetoHistory(string s);
+vector <string> viewHistory();

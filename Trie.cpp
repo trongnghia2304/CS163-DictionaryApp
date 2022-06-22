@@ -128,16 +128,35 @@ TrieNode* remove(TrieNode* &root, string key, int len) {
     return root;
 }
 
+void deleteHistory()
+{
+    ofstream fout;
+    fout.open("lookedupWords.txt", ios_base::trunc);
+    fout.close();
+}
+
+//called in all searching functions
+void savetoHistory(string s)
+{
+    ofstream fout;
+    fout.open("lookedupWords.txt", ios_base::app);
+
+    fout << s << endl;
+
+    fout.close();
+}
+
 vector <string> viewHistory()
 {
     ifstream fin;
     fin.open("lookedupWords.txt");
     vector <string> v;
-    while (getline(fin, s) != '\n')
+    string s;
+    while (getline(fin, s))
     {
         v.push_back(s);
     }
 
-    fin.close("lookedupWords.txt");
+    fin.close();
     return v;
 }
