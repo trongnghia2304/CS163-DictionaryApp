@@ -3,6 +3,8 @@
 #include "textbox.h"
 #include "button.h"
 #include "Trie.h"
+#include "splitTu.h"
+
 
 
 int main()
@@ -105,7 +107,7 @@ bg:
 			noidungnhap.setPosition({ 390.f,115.f });
 			noidungnhap.newstring("");
 			noidungnhap.setFont(font);
-			noidungnhap.setLimit1(true, 60);
+			noidungnhap.setLimit1(false, 60);
 
 			Textbox language(50, sf::Color::White, false);
 			language.newstring("ENG");
@@ -114,19 +116,35 @@ bg:
 			language.setscaleAndOut(2.f, 255, 102, 0);
 			int langcheck = 1;
 
-			Textbox definationoRKey(30, sf::Color::White, false);
-			definationoRKey.newstring("DEFINATION:");
+			Textbox definationoRKey(30, sf::Color(247, 234, 118), false);
+			definationoRKey.newstring("DEFINITION:");
 			definationoRKey.setFont(font);
 			definationoRKey.setPosition({ 400.f,200.f });
+			/*definationoRKey.setscaleAndOut(2.f, 232, 214, 49);*/
 
 
 			//express content when inputing
-			Textbox expressOutWord(30, sf::Color::White, false);
+			/*Textbox expressOutWord(20, sf::Color::White, false);
 			expressOutWord.newstring("Meaning");
 			expressOutWord.setFont(font);
-			expressOutWord.setPosition({ 500.f,250.f });
+			expressOutWord.setPosition({ 405.f,250.f });*/
+			vector<Textbox> expressKhung;
+			expressKhung.resize(5);
+			for (int i = 0; i < 5; i++)
+			{
+				expressKhung[i].setcolor(sf::Color::White);
+				expressKhung[i].setSize(20);
+				expressKhung[i].setSelected(false);
+				expressKhung[i].newstring("");
+				expressKhung[i].setFont(font);
+				expressKhung[i].setPosition({ 405.f,250.f + 0 * i });
+			}
+			int n = 0;
 			std::string meaning;
 			std::string key;
+
+
+
 
 			while (windowLang.isOpen())
 			{
@@ -178,14 +196,25 @@ bg:
 					}
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 					{
+						n = 0;
 						noidungnhap.setSelected(false);
 
 						key = noidungnhap.getText();
 						bool check = lookUpMeaning1(root, key, meaning);
-						if (check)
-							expressOutWord.newstring(meaning);
+						if (!check)
+						{
+							n++;
+							expressKhung[0].newstring("NOT WORD");
+						}
 						else
-							expressOutWord.newstring("NOT WORD");
+						{
+							std::vector<string> cumDong = cumTu(meaning, 90);
+							for (int i = 0; i < cumDong.size(); i++)
+							{
+								n++;
+								expressKhung[i].newstring(cumDong[i]);
+							}
+						}
 
 
 					}
@@ -209,7 +238,9 @@ bg:
 				windowLang.draw(spriteBgLang);
 				windowLang.draw(khungnhap);
 				noidungnhap.drawTo(windowLang);
-				expressOutWord.drawTo(windowLang);
+				for (int i = 0; i < n; i++)
+					expressKhung[i].drawTo(windowLang);
+				/*expressOutWord.drawTo(windowLang);*/
 				definationoRKey.drawTo(windowLang);
 				language.drawTo(windowLang);
 				windowLang.display();
