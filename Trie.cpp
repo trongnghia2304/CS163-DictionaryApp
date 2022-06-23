@@ -104,6 +104,54 @@ TrieNode* remove(TrieNode* &root, string key, int len) {
     return root;
 }
 
+bool check_exist(TrieNode* &root, string s){
+    int n=s.size();
+    TrieNode *cur=root;
+
+    for(int i=0; i<n; ++i) {
+        int nxt=int(s[i]-32);
+        if(!cur->c[nxt]) return false;
+        cur=cur->c[nxt];
+    }
+    if(cur->isEndOfWord) return true;
+    else return false;
+}
+bool check_delete_meaning(TrieNode*&root, string s){
+    int n=s.size();
+    TrieNode *cur=root;
+
+    for(int i=0; i<n; ++i) {
+        int nxt=int(s[i]-32);
+        if(!cur->c[nxt]) return false;
+        cur=cur->c[nxt];
+    }
+    if(cur->meaning.size() == 1) return false;
+    else return true;
+}
+bool delete_meaning(TrieNode*&root, string s, string meaning){
+    int n=s.size();
+    TrieNode *cur=root;
+    for(int i=0; i<n; ++i) {
+        int nxt=int(s[i]-32);
+        cur=cur->c[nxt];
+    }
+    int pos = -1;
+    for(int i = 0; i < cur->meaning.size(); i++){
+        if(cur->meaning[i] == meaning){
+            pos = i;
+            break;
+        }
+    }
+    if(pos != -1){
+        for(int i = pos; i < cur->meaning.size()-1; i++){
+            cur->meaning[i] = cur->meaning[i+1];
+        }
+        cur->meaning.pop_back();
+        return true;
+    }
+    else return false;
+}
+
 void deleteHistory()
 {
     ofstream fout;
