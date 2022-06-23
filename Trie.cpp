@@ -116,7 +116,7 @@ bool check_exist(TrieNode* &root, string s){
     if(cur->isEndOfWord) return true;
     else return false;
 }
-bool check_delete_meaning(TrieNode*&root, string s, string meaning){
+bool check_delete_meaning(TrieNode*&root, string s){
     int n=s.size();
     TrieNode *cur=root;
 

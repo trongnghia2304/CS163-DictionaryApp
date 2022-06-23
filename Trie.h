@@ -33,7 +33,7 @@ void deallocate(TrieNode* &root);
 bool isEmpty(TrieNode* root);
 TrieNode* remove(TrieNode* &root, string key, int len);
 bool check_exist(TrieNode* &root_key, string s);
-bool check_delete_meaning(TrieNode*&root, string s, string meaning);
+bool check_delete_meaning(TrieNode*&root, string s);
 bool delete_meaning(TrieNode*&root, string s, string meaning);
 void deleteHistory();
 void savetoHistory(string s);
