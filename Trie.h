@@ -24,7 +24,7 @@ struct TrieNode {
 
 void insert(TrieNode *&root, string s, string meaning);
 bool lookUpMeaning1(TrieNode* root, string s, string& meaning);
-bool EditDefination(TrieNode*& root, string s, string change);
+bool EditDefinition(TrieNode*& root, string s, string change);
 void traverse(vector <pair<string, string>> &v, TrieNode* root, string s);
 vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s);
 void Deallocate(TrieNode* &root);
