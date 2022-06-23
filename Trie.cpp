@@ -122,6 +122,7 @@ bool check_delete_meaning(TrieNode*&root, string s){
 
     for(int i=0; i<n; ++i) {
         int nxt=int(s[i]-32);
+        if(!cur->c[nxt]) return false;
         cur=cur->c[nxt];
     }
     if(cur->meaning.size() == 1) return false;
