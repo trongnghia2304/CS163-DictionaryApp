@@ -1,11 +1,3 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <tuple>
-
-// alphabet: ASCII 32-127 (all printable characters)
-// For Dictionary project (with special characters like -, $, #...)
 using namespace std;
 #include "Trie.h"
 
@@ -21,47 +13,31 @@ void insert(TrieNode *&root, string s, string meaning) {
     }
 
     cur->isEndOfWord=true;
-    cur->meaning=meaning;
+    cur->meaning.push_back(meaning);
 }
 
-bool lookUpMeaning1(TrieNode* root, string s, string& meaning) {
-    int n = s.size();
-    TrieNode* cur = root;
+// bool lookUpMeaning1(TrieNode* root, string s, string& meaning) {
+//     int n = s.size();
+//     TrieNode* cur = root;
 
-    for (int i = 0; i < n; ++i) {
-        int nxt = int(s[i] - 32);
-        if (!cur->c[nxt]) return false;
-        cur = cur->c[nxt];
-    }
+//     for (int i = 0; i < n; ++i) {
+//         int nxt = int(s[i] - 32);
+//         if (!cur->c[nxt]) return false;
+//         cur = cur->c[nxt];
+//     }
 
-    if (!cur->isEndOfWord) return false;
+//     if (!cur->isEndOfWord) return false;
 
-    meaning = cur->meaning;
-    return true;
-}
-
-bool EditDefination(TrieNode*& root, string s, string change)
-{
-    int n = s.size();
-    TrieNode* curr = root;
-
-    for (int i = 0; i < n; ++i)
-    {
-        int nxt = int(s[i] - 32);
-        if (!curr->c[nxt]) return false;
-        curr = curr->c[nxt];
-    }
-
-    if (!curr->isEndOfWord) return false;
-    curr->meaning = change;
-    return true;
-}
+//     meaning = cur->meaning;
+//     return true;
+// }
 
 
 // DFS to check all strings exist on trie with s as prefix
 void traverse(vector <pair<string, string>> &v, TrieNode* root, string s) {
     if(root->isEndOfWord)
-        v.push_back({s, root->meaning});
+        for(string &def: root->meaning)
+            v.push_back({s, def});
     
     for(int i=0; i<ALP; ++i) {
         if(root->c[i]) {
@@ -87,11 +63,11 @@ vector <pair<string, string>> lookUpMeaning(TrieNode *root, string s) {
     return v;
 }
 
-void Deallocate(TrieNode* &root) {
+void deallocate(TrieNode* &root) {
     if(!root) return;
     
     for(int i=0; i<ALP; ++i)
-        Deallocate(root->c[i]);
+        deallocate(root->c[i]);
     
     root->meaning.clear();
     delete root;

@@ -12,7 +12,7 @@
 -:-)	User is a punk rocker.
 -=* :-)	User is a TeX wizard.
 .-)	User only has one eye.
-2MFM	To much for me
+2MFM	Too much for me
 2U2	To you too
 3:[	Mean Pet smiley.
 3:]	Pet smiley.
@@ -117,7 +117,7 @@ ASL	Assistant section leader
 ASOP	Assistant system operator
 ATM	At the moment
 AWA	As well as
-AWGTHTGTTA	Are we going to have to go trough this again?
+AWGTHTGTTA	Are we going to have to go through this again?
 AWHFY	Are we having fun yet?
 AWOL	Absent without leave
 AYOR	At your own risk
