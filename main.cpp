@@ -17,11 +17,17 @@ int main()
 	sf::Sprite spriteBG;
 	spriteBG.setTexture(bgText);
 
-	TrieNode* root = nullptr;
-	root = new TrieNode();
-	insert(root, "hello", "xin chao");
+	TrieNode* rootEngLish = nullptr;
+	rootEngLish = new TrieNode();
+	insert(rootEngLish, "Coca", "xin chao");
+	insert(rootEngLish, "Chicken", "Do luoi bieng");
+	insert(rootEngLish, "Chika", "Do luoi bieng");
+	insert(rootEngLish, "Coco", "Do luoi bieng");
+	insert(rootEngLish, "Cjdsjkf", "Do luoi bieng");
 
-
+	TrieNode* rootVietNam = nullptr;
+	rootVietNam = new TrieNode();
+	insert(rootVietNam, "PhungTai", "DoLuoiBieng");
 
 	Textbox nuthome(60, sf::Color::White, false);
 	nuthome.setPosition({ 300.f,200.f });
@@ -109,12 +115,15 @@ bg:
 			noidungnhap.setFont(font);
 			noidungnhap.setLimit1(false, 60);
 
+			//Choose Language
 			Textbox language(50, sf::Color::White, false);
 			language.newstring("ENG");
 			language.setFont(font);
 			language.setPosition({ 170.f,90.f });
 			language.setscaleAndOut(2.f, 255, 102, 0);
 			int langcheck = 1;
+			TrieNode* root = rootEngLish;
+
 
 			Textbox definationoRKey(30, sf::Color(247, 234, 118), false);
 			definationoRKey.newstring("DEFINITION:");
@@ -137,13 +146,23 @@ bg:
 				expressKhung[i].setSelected(false);
 				expressKhung[i].newstring("");
 				expressKhung[i].setFont(font);
-				expressKhung[i].setPosition({ 405.f,250.f + 0 * i });
+				expressKhung[i].setPosition({ 405.f,250.f + 25 * i });
 			}
 			int n = 0;
 			std::string meaning;
 			std::string key;
 
-
+			//Khung goi y
+			bool congtac = false;
+			std::vector<Button> expressButton;
+			expressButton.resize(4);
+			for (int i = 0; i < 4; i++)
+			{
+				expressButton[i] = Button("", { 620.f,50.f }, 30, sf::Color(37, 40, 57), sf::Color::White);
+				expressButton[i].setPosition({ 368.f,155.f + i * 51.f }, 30);
+				expressButton[i].setFont(font);
+				expressButton[i].setoutline(sf::Color::Green);
+			}
 
 
 			while (windowLang.isOpen())
@@ -178,10 +197,12 @@ bg:
 						{
 							noidungnhap.clearString();
 							noidungnhap.setSelected(true);
+							congtac = true;
 						}
 						else
 						{
 							noidungnhap.setSelected(false);
+							congtac = false;
 						}
 						if (posx > 1127 && posx < 1159 && posy>77 && posy < 130)
 						{
@@ -189,13 +210,25 @@ bg:
 							goto bg;
 						}
 
+
 					}
 					if (eventLang.type == sf::Event::TextEntered)
 					{
+						for (int i = 0; i < 4; i++)
+						{
+							expressButton[i].setText("");
+						}
 						noidungnhap.typeOn(eventLang);
+						std::string textCheck = noidungnhap.getText();
+						vector <pair<string, string>> hello = lookUpMeaning(root, textCheck);
+						for (int i = 0; i < 4 && i < hello.size(); i++)
+						{
+							expressButton[i].setText(hello[i].first);
+						}
 					}
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 					{
+						congtac = false;
 						n = 0;
 						noidungnhap.setSelected(false);
 
@@ -223,11 +256,13 @@ bg:
 						if (langcheck == 1)
 						{
 							language.newstring("VNM");
+							root = rootVietNam;
 							langcheck = -1;
 						}
 						else if (langcheck == -1)
 						{
 							language.newstring("ENG");
+							root = rootEngLish;
 							langcheck = 1;
 						}
 					}
@@ -238,10 +273,18 @@ bg:
 				windowLang.draw(spriteBgLang);
 				windowLang.draw(khungnhap);
 				noidungnhap.drawTo(windowLang);
+
 				for (int i = 0; i < n; i++)
 					expressKhung[i].drawTo(windowLang);
 				/*expressOutWord.drawTo(windowLang);*/
 				definationoRKey.drawTo(windowLang);
+				if (congtac)
+				{
+					for (int i = 0; i < 4; i++)
+					{
+						expressButton[i].drawTo(windowLang);
+					}
+				}
 				language.drawTo(windowLang);
 				windowLang.display();
 			}
@@ -271,5 +314,6 @@ bg:
 		nutExit.drawTo(window);
 		window.display();
 	}
-	Deallocate(root);
+	Deallocate(rootEngLish);
+	Deallocate(rootVietNam);
 }
