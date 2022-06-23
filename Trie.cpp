@@ -40,7 +40,7 @@ bool lookUpMeaning1(TrieNode* root, string s, string& meaning) {
     return true;
 }
 
-bool EditDefination(TrieNode*& root, string s, string change)
+bool EditDefinition(TrieNode*& root, string s, string change)
 {
     int n = s.size();
     TrieNode* curr = root;
