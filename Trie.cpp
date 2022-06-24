@@ -152,35 +152,76 @@ bool delete_meaning(TrieNode*&root, string s, string meaning){
     else return false;
 }
 
-void deleteHistory()
+//void deleteHistory()
+//{
+//    ofstream fout;
+//    fout.open("lookedupWords.txt", ios_base::trunc);
+//    fout.close();
+//}
+//
+////called in all searching functions
+//void savetoHistory(string s)
+//{
+//    ofstream fout;
+//    fout.open("lookedupWords.txt", ios_base::app);
+//
+//    fout << s << endl;
+//
+//    fout.close();
+//}
+//
+//vector <string> viewHistory()
+//{
+//    ifstream fin;
+//    fin.open("lookedupWords.txt");
+//    vector <string> v;
+//    string s;
+//    while (getline(fin, s))
+//    {
+//        v.push_back(s);
+//    }
+//
+//    fin.close();
+//    return v;
+//}
+
+void deleteHistory(std::string address)
 {
     ofstream fout;
-    fout.open("lookedupWords.txt", ios_base::trunc);
+    fout.open(address, ios_base::trunc);
     fout.close();
 }
 
 //called in all searching functions
-void savetoHistory(string s)
+void savetoHistory(std::string s, std::string address, std::string meaning)
 {
     ofstream fout;
-    fout.open("lookedupWords.txt", ios_base::app);
+    fout.open(address, ios_base::app);
 
     fout << s << endl;
+    fout << meaning << endl;
 
     fout.close();
 }
 
-vector <string> viewHistory()
+vector <pair<string, string>> viewHistory(std::string address)
 {
+    vector <pair<string, string>> save;
     ifstream fin;
-    fin.open("lookedupWords.txt");
-    vector <string> v;
+    fin.open(address);
     string s;
-    while (getline(fin, s))
+    string u;
+    int i = 0;
+    while (!fin.eof())
     {
-        v.push_back(s);
+        getline(fin, s);
+        getline(fin, u);
+        if (i % 2 == 0)
+            save.push_back(make_pair(s, u));
+        i++;
     }
 
     fin.close();
-    return v;
+    return save;
+
 }
