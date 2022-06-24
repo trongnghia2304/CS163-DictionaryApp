@@ -147,6 +147,7 @@ bool delete_meaning(TrieNode*&root, string s, string meaning){
             cur->meaning[i] = cur->meaning[i+1];
         }
         cur->meaning.pop_back();
+        //if(cur->meaning.size() == 0) root = remove(root, s, 0);
         return true;
     }
     else return false;
