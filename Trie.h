@@ -38,3 +38,5 @@ bool delete_meaning(TrieNode*&root, string s, string meaning);
 void deleteHistory(std::string address);
 void savetoHistory(std::string s, std::string address, std::string meaning);
 vector <pair<string, string>> viewHistory(std::string address);
+vector <pair<string, string>> loadLikeWord(std::string address);
+void releaseLikeWord(std::string address, vector<pair<string, string>> save);

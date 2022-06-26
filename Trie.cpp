@@ -226,3 +226,37 @@ vector <pair<string, string>> viewHistory(std::string address)
     return save;
 
 }
+
+vector <pair<string, string>> loadLikeWord(std::string address)
+{
+    vector<pair<string, string>> save;
+    ifstream fin;
+    fin.open(address);
+    if (!fin.is_open())
+        return save;
+    string s;
+    string u;
+    while (!fin.eof())
+    {
+        getline(fin, s);
+        getline(fin, u);
+        if (s == "" || u == "")
+            return save;
+        save.push_back(make_pair(s, u));
+    }
+    fin.close();
+    return save;
+}
+
+void releaseLikeWord(std::string address, vector<pair<string, string>> save)
+{
+    ofstream fout2;
+    fout2.open(address);
+    for (int i = 0; i < save.size(); i++)
+    {
+        fout2 << save[i].first << endl;
+        fout2 << save[i].second << endl;
+    }
+    fout2.close();
+
+}
