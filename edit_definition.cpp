@@ -16,10 +16,10 @@ bool delete_mean(TrieNode*&root_key, TrieNode*&root_def, string s, string old_me
 }
 bool edit_meaning(TrieNode*&root_key, TrieNode*&root_def, string s, string old_meaning, string new_meaning){
     if(!check_exist(root_key, s)) return false;
-    delete_meaning(root_key, s, old_meaning);
+    if(!delete_meaning(root_key, s, old_meaning)) return false;
     insert(root_key, s, new_meaning);
     delete_meaning(root_def, old_meaning, s);
-    int n=s.size();
+    int n=old_meaning.size();
     TrieNode *cur=root_def;
     for(int i=0; i<n; ++i) {
         int nxt=int(old_meaning[i]-32);
