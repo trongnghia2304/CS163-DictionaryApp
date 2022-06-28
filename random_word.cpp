@@ -3,7 +3,7 @@
 using namespace std;
 #include "random_word.h"
 
-void random_word(TrieNode* & root_key, string &s, string &meaning){
+void random_word(TrieNode* & root_key, string &s, vector<string> &meaning){
     TrieNode* cur = root_key;
     srand(time(NULL)); 
 	int res = rand() % (96);
@@ -14,14 +14,14 @@ void random_word(TrieNode* & root_key, string &s, string &meaning){
     s = s + char(res+32);
     while(true){
         if(isEmpty(cur)){
-            meaning = cur->meaning.back();
+            meaning = cur->meaning;
             break;
         }
         else{
             if(cur->isEndOfWord){
                 int g = rand() % (2);
                 if(g == 1){
-                    meaning = cur->meaning.back();
+                    meaning = cur->meaning;
                     break;
                 }
                 else{
