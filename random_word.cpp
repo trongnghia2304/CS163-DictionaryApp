@@ -6,12 +6,12 @@ using namespace std;
 void random_word(TrieNode* & root_key, string &s, string &meaning){
     TrieNode* cur = root_key;
     srand(time(NULL)); 
-	int res = rand() % (127 - 32 + 1) + 32;
+	int res = rand() % (96);
     while(!cur->c[res]){
-        res = rand() % (127 - 32 + 1) + 32;
+        res = rand() % (96);
     }
     cur = cur->c[res];
-    s = s + char(res);
+    s = s + char(res+32);
     while(true){
         if(isEmpty(cur)){
             meaning = cur->meaning.back();
@@ -25,21 +25,21 @@ void random_word(TrieNode* & root_key, string &s, string &meaning){
                     break;
                 }
                 else{
-                    res = rand() % (127 - 32 + 1) + 32;
+                    res = rand() % (96);
                     while(!cur->c[res]){
-                        res = rand() % (127 - 32 + 1) + 32;
+                        res = rand() % (96);
                     }
                     cur = cur->c[res];
-                    s = s + char(res);
+                    s = s + char(res+32);
                 }
             }
             else{
-                res = rand() % (127 - 32 + 1) + 32;
+                res = rand() % (96);
                 while(!cur->c[res]){
-                    res = rand() % (127 - 32 + 1) + 32;
+                    res = rand() % (96);
                 }
                 cur = cur->c[res];
-                s = s + char(res);
+                s = s + char(res+32);
             }
         }
     }
