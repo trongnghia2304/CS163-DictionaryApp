@@ -15,10 +15,16 @@ void random_key_4_def(TrieNode* root_key, TrieNode* root_def, string &s, vector<
     while(meaning.size() < 4){
         string new_def;
         vector<string> new_mean;
-        random_word(root_def, new_def, new_mean);
+        random_word(root_def, new_def, new_mean, 0);
         bool check = true;
         for(int i = 0; i < new_mean.size(); i++){
             if(new_mean[i] == s){
+                check = false;
+                break;
+            }
+        }
+        for(int i = 0; i < meaning.size(); i++){
+            if(new_def == meaning[i]){
                 check = false;
                 break;
             }

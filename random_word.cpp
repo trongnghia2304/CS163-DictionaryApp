@@ -3,9 +3,9 @@
 using namespace std;
 #include "random_word.h"
 
-void random_word(TrieNode* & root_key, string &s, vector<string> &meaning){
+void random_word(TrieNode* & root_key, string &s, vector<string> &meaning, int t = 1){
     TrieNode* cur = root_key;
-    srand(time(NULL)); 
+    if(t == 1) srand(time(NULL)); 
 	int res = rand() % (96);
     while(!cur->c[res]){
         res = rand() % (96);
