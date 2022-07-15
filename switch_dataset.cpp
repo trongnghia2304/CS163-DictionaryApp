@@ -1,6 +1,6 @@
 using namespace std;
 #include "switch_dataset.h"
-
+#include "addNewWord.h"
 //mode will be assigned one of 3 values: 
 // 1: Anh - Viet
 // 2: Viet - Anh
@@ -12,66 +12,65 @@ using namespace std;
 // sample3.txt
 // 
 //And the format of the txt file will be:
-// Nghiem'Hello/con ga no minh 11k va di chan rau CT1821 PTNK
+// Nghiem'Hello/ con ga no minh 11k va di chan rau CT1821 PTNK
 // Nghiem'Hello
-// data'definition1/definition2/definition3/...
+// data'definition
 
-void build_data(TrieNode*& root_key, TrieNode*& root_def, int mode)
+void build_data(TrieNode*& root_key, TrieNode*& root_def,std::string t,char deli)
 {
-	ifstream fin;
+    ifstream fin;
 
-	string s = "sample" + to_string(mode) + ".txt";
-	fin.open(s);
+  
+    fin.open(t);
 
     string s, meaning;
-    while (getline(fin, s, '\''))
+    while (getline(fin, s, deli))
     {
         getline(fin, meaning);
         int len = meaning.size() - 1;
         string str = "";
         for (int i = 0; i <= len; i++)
         {
-            if (meaning[i] == '/')
+            if (meaning[i] == '|')
             {
                 add_new_word(root_key, root_def, s, str);
                 str = "";
+                i += 1;
             }
             else str = str + meaning[i];
         }
 
         add_new_word(root_key, root_def, s, str);
     }
-    fin.close();
-}
-
-// 3 files which are the original datasets and used to recover the very first data:
-// origin1.txt
-// origin2.txt
-// origin3.txt
-
-// this function called when we press reset button
-void reset_file(int mode)
-{
-    ifstream fin;
-    ofstream fout;
-
-    string s = "origin" + to_string(mode) + ".txt";
-    string s1 = "sample" + to_string(mode) + ".txt";
-
-    fin.open(s);
-    fout.open(s1);
-    
-    while (getline(fin, s))
-    {
-        fout << s << endl;
-    }
 
     fin.close();
-    fout.close();
 }
 
-//this function called to write down the 
-void write_changes(int mode)
-{
-
-}
+//void build_data(TrieNode*& root_key, TrieNode*& root_def, int mode)
+//{
+//    ifstream fin;
+//
+//    string s1 = "sample" + to_string(mode) + ".txt";
+//    fin.open(s1);
+//
+//    string s, meaning;
+//    while (getline(fin, s, '`'))
+//    {
+//        getline(fin, meaning);
+//        int len = meaning.size() - 1;
+//        string str = "";
+//        for (int i = 0; i <= len; i++)
+//        {
+//            if (meaning[i] == '|')
+//            {
+//                add_new_word(root_key, root_def, s, str);
+//                str = "";
+//                i += 1;
+//            }
+//            else str = str + meaning[i];
+//        }
+//
+//        add_new_word(root_key, root_def, s, str);
+//    }
+//    fin.close();
+//}
