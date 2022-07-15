@@ -17,6 +17,10 @@ public:
 		this->shape.setFillColor(bgColor);
 
 	}
+	void settextture(sf::Texture& tthinh)
+	{
+		this->shape.setTexture(&tthinh);
+	}
 	void setSizeOfButton(sf::Vector2f size)
 	{
 		this->shape.setSize(size);
@@ -49,10 +53,10 @@ public:
 		this->text.setFillColor(color);
 	}
 
-	void setPosition(sf::Vector2f pos,int size)
+	void setPosition(sf::Vector2f pos,int size, float f)
 	{
 		this->shape.setPosition(pos);
-		this->text.setPosition(this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - ((this->text.getGlobalBounds().width+33.f*size/12) / 2.f), this->shape.getPosition().y + (this->shape.getGlobalBounds().height / 2.f) - ((this->text.getGlobalBounds().height+14.f*size/12) / 2.f));
+		this->text.setPosition(this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - ((this->text.getGlobalBounds().width+33.f*size/12) / 2.f)-f, this->shape.getPosition().y + (this->shape.getGlobalBounds().height / 2.f) - ((this->text.getGlobalBounds().height+14.f*size/12) / 2.f));
 	}
 
 	void drawTo(sf::RenderWindow& window)
@@ -70,18 +74,33 @@ public:
 		float buttonY = shape.getPosition().y;
 
 
-		float buttonWidth = shape.getPosition().x + shape.getGlobalBounds().width;
-		float buttonHeight = shape.getPosition().y + shape.getGlobalBounds().height;
+		float buttonWidth = buttonX + shape.getGlobalBounds().width;
+		float buttonHeight = buttonWidth + shape.getGlobalBounds().height;
 
 		if (mouseX<buttonWidth && mouseX>buttonX && mouseY<buttonHeight && mouseY>buttonY)
 			return true;
 		return false;
 
 	}
+	bool isKickMouse(sf::RenderWindow& window)
+	{
+		float mouseX = sf::Mouse::getPosition(window).x;
+		float mouseY = sf::Mouse::getPosition(window).y;
 
+		float buttonX = shape.getPosition().x;
+		float buttonY = shape.getPosition().y;
+
+		float buttonWidth = buttonX + shape.getGlobalBounds().width;
+		float buttonHeight = buttonY + shape.getGlobalBounds().height;
+
+		if (mouseX<buttonWidth && mouseX>buttonX && mouseY<buttonHeight && mouseY>buttonY)
+			return true;
+		return false;
+
+	}
 	std::string getText()
 	{
-		this->text.getString();
+		return this->text.getString();
 	}
 private:
 	sf::RectangleShape shape;
