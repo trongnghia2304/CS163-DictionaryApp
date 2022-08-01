@@ -10,19 +10,33 @@
 #include "randomword.h"
 #include "switch_dataset.h"
 #include "random4.h"
+#include "saveDic.h"
 
 
 int main()
 {
+	TrieNode* englishVietnam = nullptr;
+	TrieNode* englishVietnamDef = nullptr;
+	TrieNode* slang = nullptr;
+	TrieNode* slangDef = nullptr;
+	TrieNode* emotiondef = nullptr;
+	TrieNode* emotion = nullptr;
 	TrieNode* rootEngLish = nullptr;
 	TrieNode* rootVietNam = nullptr;
-	/*build_data(rootEngLish, rootVietNam, "sample1.txt", '`');*/
-	build_data(rootEngLish, rootVietNam, "emotional.txt", '`');
-	/*add_new_word(rootEngLish, rootVietNam, "ô", "Trademark");
-	add_new_word(rootEngLish, rootVietNam, "Æ", "Registered Trademark Symbol");*/
 
-	
-	
+	int chooseDic = 1;
+	bool dicEngViet = false;
+	bool dicSlang = false;
+	bool dicEmotion = false;
+
+
+	build_data(englishVietnam, englishVietnamDef, "sample3.txt", '`');
+	build_data(slang, slangDef, "sample1.txt", '`');
+	build_data(emotion, emotiondef, "emotional.txt", '`');
+
+	rootEngLish = englishVietnam;
+	rootVietNam = englishVietnamDef;
+
 	sf::Font font;
 	font.loadFromFile("font.ttf");
 	sf::Texture bgText;
@@ -77,6 +91,237 @@ bg:
 			nuthome.setcolor(sf::Color::White);
 			nuthome.setscaleAndOut(2.f, 0, 187, 191);
 		}
+		if (nuthome.isKickMouse(window) && event.type == sf::Event::MouseButtonPressed)
+		{
+			window.close();
+			sf::Texture bgSet;
+			bgSet.loadFromFile("khungsetting.png");
+			sf::RenderWindow windowAdd(sf::VideoMode(bgSet.getSize().x, bgSet.getSize().y), "SETTING", sf::Style::Default);
+			windowAdd.setFramerateLimit(60);
+			windowAdd.setPosition({ 40,10 });
+			sf::Sprite spriteBgAdd;
+			spriteBgAdd.setTexture(bgSet);
+
+			Textbox nuthome(60, sf::Color::White, false);
+			nuthome.setPosition({ 300.f,220.f });
+			nuthome.newstring("ENGLISH");
+			nuthome.setFont(font);
+			nuthome.setscaleAndOut(2.f, 0, 187, 191);
+
+			Textbox nutNewword(60, sf::Color::White, false);
+			nutNewword.setPosition({ 300.f,400.f });
+			nutNewword.newstring("VIETNAM");
+			nutNewword.setFont(font);
+			nutNewword.setscaleAndOut(2.f, 0, 187, 191);
+
+			Textbox nutLang(60, sf::Color::White, false);
+			nutLang.setPosition({ 700.f,220.f });
+			nutLang.newstring("EMOTION");
+			nutLang.setFont(font);
+			nutLang.setscaleAndOut(2.f, 0, 187, 191);
+
+			Textbox nutExit(60, sf::Color::White, false);
+			nutExit.setPosition({ 700.f,400.f });
+			nutExit.newstring("SLANG");
+			nutExit.setFont(font);
+			nutExit.setscaleAndOut(2.f, 0, 187, 191);
+
+			Textbox nutExit2(60, sf::Color::Blue, false);
+			nutExit2.setPosition({ 120.f,100.f });
+			nutExit2.newstring("RESET");
+			nutExit2.setFont(font);
+			nutExit2.setscaleAndOut(2.f, 0, 187, 191);
+			while (windowAdd.isOpen())
+			{
+				sf::Event event;
+				while (windowAdd.pollEvent(event))
+				{
+					if (event.type == sf::Event::Closed)
+					{
+						windowAdd.close();
+						goto bg;
+					}
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+					{
+						float mouseX = sf::Mouse::getPosition(windowAdd).x;
+						float mouseY = sf::Mouse::getPosition(windowAdd).y;
+						if (mouseX > 1128 && mouseY > 80 && mouseX < 1162 && mouseY < 128)
+						{
+							windowAdd.close();
+							goto bg;
+						}
+
+					}
+					if (nuthome.isMouseOver(windowAdd))
+					{
+						nuthome.setcolor(sf::Color::Red);
+						nuthome.setscaleAndOut(3.f, 245, 168, 154);
+					}
+					else
+					{
+						nuthome.setcolor(sf::Color::White);
+						nuthome.setscaleAndOut(2.f, 0, 187, 191);
+					}
+					if (nuthome.isKickMouse(windowAdd) && event.type == sf::Event::MouseButtonPressed)
+					{
+						rootEngLish = englishVietnam;
+						rootVietNam = englishVietnamDef;
+						chooseDic = 1;
+						windowAdd.close();
+						goto bg;
+					}
+					if (nutNewword.isMouseOver(windowAdd))
+					{
+						nutNewword.setcolor(sf::Color::Red);
+						nutNewword.setscaleAndOut(3.f, 245, 168, 154);
+					}
+					else
+					{
+						nutNewword.setcolor(sf::Color::White);
+						nutNewword.setscaleAndOut(2.f, 0, 187, 191);
+					}
+					if (nutNewword.isKickMouse(windowAdd) && event.type == sf::Event::MouseButtonPressed)
+					{
+						rootEngLish = englishVietnamDef;
+						rootVietNam = englishVietnam;
+						chooseDic = 4;
+						windowAdd.close();
+						goto bg;
+					}
+					if (nutLang.isMouseOver(windowAdd))
+					{
+						nutLang.setcolor(sf::Color::Red);
+						nutLang.setscaleAndOut(3.f, 245, 168, 154);
+					}
+					else
+					{
+						nutLang.setcolor(sf::Color::White);
+						nutLang.setscaleAndOut(2.f, 0, 187, 191);
+					}
+					if (nutLang.isKickMouse(windowAdd) && event.type == sf::Event::MouseButtonPressed)
+					{
+						rootEngLish = emotion;
+						rootVietNam = emotiondef;
+						chooseDic = 3;
+						windowAdd.close();
+						goto bg;
+					}
+					if (nutExit.isMouseOver(windowAdd))
+					{
+						nutExit.setcolor(sf::Color::Red);
+						nutExit.setscaleAndOut(3.f, 245, 168, 154);
+					}
+					else
+					{
+						nutExit.setcolor(sf::Color::White);
+						nutExit.setscaleAndOut(2.f, 0, 187, 191);
+					}
+					if (nutExit.isKickMouse(windowAdd) && event.type == sf::Event::MouseButtonPressed)
+					{
+						rootEngLish = slang;
+						rootVietNam = slangDef;
+						chooseDic = 2;
+						windowAdd.close();
+						goto bg;
+					}
+					//Reset original tree (not finished)
+					if (nutExit2.isMouseOver(windowAdd))
+					{
+						nutExit2.setcolor(sf::Color::Red);
+						nutExit2.setscaleAndOut(3.f, 245, 168, 154);
+					}
+					else
+					{
+						nutExit2.setcolor(sf::Color::Blue);
+						nutExit2.setscaleAndOut(2.f, 0, 187, 191);
+					}
+					if (nutExit2.isKickMouse(windowAdd))
+					{
+						if (chooseDic == 2 && !dicSlang)
+						{
+							windowAdd.close();
+							goto bg;
+						}
+						else if (chooseDic == 2 && dicSlang)
+						{
+							TrieNode* curr = slang;
+							TrieNode* currDef = slangDef;
+							slang = nullptr;
+							slangDef = nullptr;
+							build_data(slang, slangDef, "sample1Ori.txt", '`');
+							rootEngLish = slang;
+							rootVietNam = slangDef;
+							windowAdd.close();
+							goto bg;
+						}
+						if (chooseDic == 1 && !dicEngViet)
+						{
+							windowAdd.close();
+							goto bg;
+						}
+						else if (chooseDic == 1 && dicEngViet)
+						{
+							TrieNode* curr = englishVietnam;
+							TrieNode* currDef = englishVietnamDef;
+							englishVietnam = nullptr;
+							englishVietnamDef = nullptr;
+							build_data(englishVietnam, englishVietnamDef, "sample3Ori.txt", '`');
+							rootEngLish = englishVietnam;
+							rootVietNam = englishVietnamDef;
+							windowAdd.close();
+							goto bg;
+						}
+
+						if (chooseDic == 4 && !dicEngViet)
+						{
+							windowAdd.close();
+							goto bg;
+						}
+						else if (chooseDic == 4 && dicEngViet)
+						{
+							TrieNode* curr = englishVietnam;
+							TrieNode* currDef = englishVietnamDef;
+							englishVietnam = nullptr;
+							englishVietnamDef = nullptr;
+							build_data(englishVietnam, englishVietnamDef, "sample3Ori.txt", '`');
+							rootEngLish = englishVietnamDef;
+							rootVietNam = englishVietnam;
+							windowAdd.close();
+							goto bg;
+						}
+						if (chooseDic == 3 && !dicSlang)
+						{
+							windowAdd.close();
+							goto bg;
+						}
+						else if (chooseDic == 3 && dicSlang)
+						{
+							TrieNode* curr = emotion;
+							TrieNode* currDef = emotiondef;
+							emotion = nullptr;
+							emotiondef = nullptr;
+							build_data(emotion, emotiondef, "emotionalOri.txt", '`');
+							rootEngLish = emotion;
+							rootVietNam = emotiondef;
+							windowAdd.close();
+							goto bg;
+						}
+					}
+
+
+				}
+				windowAdd.clear();
+				windowAdd.draw(spriteBgAdd);
+				nuthome.drawTo(windowAdd);
+				nutLang.drawTo(windowAdd);
+				nutNewword.drawTo(windowAdd);
+				nutExit.drawTo(windowAdd);
+				nutExit2.drawTo(windowAdd);
+				windowAdd.display();
+
+			}
+
+		}
 
 		if (nutNewword.isMouseOver(window))
 		{
@@ -88,9 +333,9 @@ bg:
 			nutNewword.setcolor(sf::Color::White);
 			nutNewword.setscaleAndOut(2.f, 0, 187, 191);
 		}
-		if (nutNewword.isKickMouse(window))
+		if (nutNewword.isKickMouse(window) && event.type == sf::Event::MouseButtonPressed)
 		{
-			
+
 			sf::Texture ttPlay;
 			sf::Texture anhkhung;
 			sf::Texture anhKey;
@@ -113,7 +358,7 @@ bg:
 			TrieNode* rootkey = rootEngLish;
 			TrieNode* rootdef = rootVietNam;
 
-			
+
 			//Khung key
 			Button khungKey("", { 400.f,90.f }, 22, sf::Color(255, 214, 130), sf::Color::Black);
 			khungKey.setFont(font);
@@ -164,7 +409,7 @@ bg:
 								rootdef = rootVietNam;
 								langcheck = 1;
 							}
-							
+
 						}
 						if (khungDapAn[0].isKickMouse(windowPlay))
 						{
@@ -255,7 +500,7 @@ bg:
 			nutLang.setcolor(sf::Color::White);
 			nutLang.setscaleAndOut(2.f, 0, 187, 191);
 		}
-		if (nutLang.isKickMouse(window))
+		if (nutLang.isKickMouse(window) && event.type == sf::Event::MouseButtonPressed)
 		{
 			window.close();
 
@@ -367,10 +612,10 @@ bg:
 				}
 				if (add_button.isKickMouse(windowLang))
 				{
-					if(langcheck==1)
-						addingWordScreen(font, rootEngLish, rootVietNam);
-					else if(langcheck==-1)
-						addingWordScreen(font, rootVietNam, rootEngLish);
+					if (langcheck == 1)
+						addingWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion);
+					else if (langcheck == -1)
+						addingWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion);
 				}
 				if (edit_button.isMouseOver(windowLang))
 				{
@@ -383,9 +628,9 @@ bg:
 				if (edit_button.isKickMouse(windowLang))
 				{
 					if (langcheck == 1)
-						editWordScreen(font, rootEngLish, rootVietNam);
+						editWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion);
 					else if (langcheck == -1)
-						editWordScreen(font, rootVietNam, rootEngLish);
+						editWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion);
 				}
 				if (del_button.isMouseOver(windowLang))
 				{
@@ -398,9 +643,9 @@ bg:
 				if (del_button.isKickMouse(windowLang))
 				{
 					if (langcheck == 1)
-						deleteWordScreen(font, rootEngLish, rootVietNam);
+						deleteWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion);
 					else if (langcheck == -1)
-						deleteWordScreen(font, rootVietNam, rootEngLish);
+						deleteWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion);
 				}
 				while (windowLang.pollEvent(eventLang))
 				{
@@ -415,7 +660,7 @@ bg:
 								likeWord.push_back(make_pair(tempKey, tempMeaning));
 							}
 						}
-						
+
 						if (posx > 367 && posx < 986 && posy>99 && posy < 153)
 						{
 							noidungnhap.clearString();
@@ -504,38 +749,38 @@ bg:
 								sf::Event eventLike;
 								while (windowLike.pollEvent(eventLike))
 								{
-										if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+									if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+									{
+										float posx = sf::Mouse::getPosition(windowLike).x;
+										float posy = sf::Mouse::getPosition(windowLike).y;
+										if (posx > 218 && posx < 310 && posy>93 && posy < 179)
 										{
-											float posx = sf::Mouse::getPosition(windowLike).x;
-											float posy = sf::Mouse::getPosition(windowLike).y;
-											if (posx > 218 && posx < 310 && posy>93 && posy < 179)
-											{
-												releaseLikeWord("LIKEWORD.txt", likeWord);
-												likeWord.clear();
-												windowLike.close();
-												goto bgHis;
-											}
-											if (posx > 483 && posx < 593 && posy>555 && posy < 605)
-											{
-												if (chisoLike - 2 >= 0)
-													chisoLike -= 2;
-											}
-											if (posx > 732 && posx < 841 && posy>555 && posy < 603)
-											{
-												if (kickcoLike - 1 - chisoLike >= 2)
-													chisoLike += 2;
-											}
-											if (posx > 460 && posx < 507 && posy>316 && posy < 363 && (kickcoLike-chisoLike-1)>=0)
-											{
-												likeWord.erase(likeWord.begin() + kickcoLike - 1 - chisoLike);
-												kickcoLike = likeWord.size();
-											}
-											if (posx > 1069 && posx < 1120 && posy>318 && posy < 366 && (kickcoLike-2-chisoLike)>=0)
-											{
-												likeWord.erase(likeWord.begin() + kickcoLike - 2 - chisoLike);
-												kickcoLike = likeWord.size();
-											}
+											releaseLikeWord("LIKEWORD.txt", likeWord);
+											likeWord.clear();
+											windowLike.close();
+											goto bgHis;
 										}
+										if (posx > 483 && posx < 593 && posy>555 && posy < 605)
+										{
+											if (chisoLike - 2 >= 0)
+												chisoLike -= 2;
+										}
+										if (posx > 732 && posx < 841 && posy>555 && posy < 603)
+										{
+											if (kickcoLike - 1 - chisoLike >= 2)
+												chisoLike += 2;
+										}
+										if (posx > 460 && posx < 507 && posy>316 && posy < 363 && (kickcoLike - chisoLike - 1) >= 0)
+										{
+											likeWord.erase(likeWord.begin() + kickcoLike - 1 - chisoLike);
+											kickcoLike = likeWord.size();
+										}
+										if (posx > 1069 && posx < 1120 && posy>318 && posy < 366 && (kickcoLike - 2 - chisoLike) >= 0)
+										{
+											likeWord.erase(likeWord.begin() + kickcoLike - 2 - chisoLike);
+											kickcoLike = likeWord.size();
+										}
+									}
 									if (kickcoLike - 1 - chisoLike < 0)
 									{
 										n1LikeKey = 0;
@@ -546,14 +791,14 @@ bg:
 									{
 										n1LikeKey = 0;
 										std::vector<string> cumDong1Key = cumTu(likeWord[kickcoLike - 1 - chisoLike].first, 42);
-										for (int i = 0; i < cumDong1Key.size() && i<3; i++)
+										for (int i = 0; i < cumDong1Key.size() && i < 3; i++)
 										{
 											n1LikeKey++;
 											expressKhung1KeyLike[i].newstring(cumDong1Key[i]);
 										}
 										n1LikeMeaning = 0;
 										std::vector<string> cumDong1meaning = cumTu(likeWord[kickcoLike - 1 - chisoLike].second, 42);
-										for (int i = 0; i < cumDong1meaning.size() && i<3; i++)
+										for (int i = 0; i < cumDong1meaning.size() && i < 3; i++)
 										{
 											n1LikeMeaning++;
 											expressKhung1meaningLike[i].newstring(cumDong1meaning[i]);
@@ -569,14 +814,14 @@ bg:
 									{
 										n2LikeKey = 0;
 										std::vector<string> cumDong2Key = cumTu(likeWord[kickcoLike - 2 - chisoLike].first, 47);
-										for (int i = 0; i < cumDong2Key.size() && i<3; i++)
+										for (int i = 0; i < cumDong2Key.size() && i < 3; i++)
 										{
 											n2LikeKey++;
 											expressKhung2KeyLike[i].newstring(cumDong2Key[i]);
 										}
 										n2LikeMeaning = 0;
 										std::vector<string> cumDong2meaning = cumTu(likeWord[kickcoLike - 2 - chisoLike].second, 47);
-										for (int i = 0; i < cumDong2meaning.size() && i<3; i++)
+										for (int i = 0; i < cumDong2meaning.size() && i < 3; i++)
 										{
 											n2LikeMeaning++;
 											expressKhung2meaningLike[i].newstring(cumDong2meaning[i]);
@@ -766,8 +1011,8 @@ bg:
 									{
 										n1 = 0;
 										expressKhung1Key.newstring(khungluu[kichco - 1 - chiso].first);
-										std::vector<string> cumDong1 = cumTu(khungluu[kichco - 1 - chiso].second, 59);
-										for (int i = 0; i < cumDong1.size() && i<3; i++)
+										std::vector<string> cumDong1 = cumTu(khungluu[kichco - 1 - chiso].second, 50);
+										for (int i = 0; i < cumDong1.size() && i < 3; i++)
 										{
 											n1++;
 											expressKhung1meaning[i].newstring(cumDong1[i]);
@@ -786,8 +1031,8 @@ bg:
 									{
 										n2 = 0;
 										expressKhung2Key.newstring(khungluu[kichco - 2 - chiso].first);
-										std::vector<string> cumDong2 = cumTu(khungluu[kichco - 2 - chiso].second, 59);
-										for (int i = 0; i < cumDong2.size() && i<3; i++)
+										std::vector<string> cumDong2 = cumTu(khungluu[kichco - 2 - chiso].second, 50);
+										for (int i = 0; i < cumDong2.size() && i < 3; i++)
 										{
 											n2++;
 											expressKhung2meaning[i].newstring(cumDong2[i]);
@@ -803,8 +1048,8 @@ bg:
 									{
 										n3 = 0;
 										expressKhung3Key.newstring(khungluu[kichco - 3 - chiso].first);
-										std::vector<string> cumDong3 = cumTu(khungluu[kichco - 3 - chiso].second, 59);
-										for (int i = 0; i < cumDong3.size() && i<3; i++)
+										std::vector<string> cumDong3 = cumTu(khungluu[kichco - 3 - chiso].second, 50);
+										for (int i = 0; i < cumDong3.size() && i < 3; i++)
 										{
 											n3++;
 											expressKhung3meaning[i].newstring(cumDong3[i]);
@@ -820,8 +1065,8 @@ bg:
 									{
 										n4 = 0;
 										expressKhung4Key.newstring(khungluu[kichco - 4 - chiso].first);
-										std::vector<string> cumDong4 = cumTu(khungluu[kichco - 4 - chiso].second, 59);
-										for (int i = 0; i < cumDong4.size() && i<3; i++)
+										std::vector<string> cumDong4 = cumTu(khungluu[kichco - 4 - chiso].second, 50);
+										for (int i = 0; i < cumDong4.size() && i < 3; i++)
 										{
 											n4++;
 											expressKhung4meaning[i].newstring(cumDong4[i]);
@@ -1136,7 +1381,7 @@ bg:
 							expressButton[i].setText(hello[i].first);
 						}
 					}
-					
+
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 					{
 						congtac = false;
@@ -1153,7 +1398,7 @@ bg:
 						else if (check)
 						{
 							std::vector<string> cumDong = cumTu(meaning, 80);
-							for (int i = 0; i < cumDong.size() && i<5; i++)
+							for (int i = 0; i < cumDong.size() && i < 5; i++)
 							{
 								n++;
 								expressKhung[i].newstring(cumDong[i]);
@@ -1230,7 +1475,7 @@ bg:
 			nutExit.setcolor(sf::Color::White);
 			nutExit.setscaleAndOut(2.f, 0, 187, 191);
 		}
-		if (nutExit.isKickMouse(window))
+		if (nutExit.isKickMouse(window) && event.type == sf::Event::MouseButtonPressed)
 			window.close();
 
 
@@ -1244,6 +1489,17 @@ bg:
 		nutExit.drawTo(window);
 		window.display();
 	}
-	deallocate(rootEngLish);
-	deallocate(rootVietNam);
+	if (dicEngViet)
+		saveDict(englishVietnam, "sample3.txt");
+	if (dicSlang)
+		saveDict(slang, "sample1.txt");
+	if (dicEmotion)
+		saveDict(emotion, "emotional.txt");
+
+	deallocate(englishVietnam);
+	deallocate(englishVietnamDef);
+	deallocate(slang);
+	deallocate(slangDef);
+	deallocate(emotion);
+	deallocate(emotiondef);
 }
