@@ -44,7 +44,7 @@ int main()
 	sf::Font font;
 	font.loadFromFile("font.ttf");
 	sf::Texture bgText;
-	bgText.loadFromFile("dohoa1.png");
+	bgText.loadFromFile("UI//dohoa1.png");
 
 	sf::Sprite spriteBG;
 	spriteBG.setTexture(bgText);
@@ -99,7 +99,7 @@ bg:
 		{
 			window.close();
 			sf::Texture bgSet;
-			bgSet.loadFromFile("khungsetting.png");
+			bgSet.loadFromFile("UI//khungsetting.png");
 			sf::RenderWindow windowAdd(sf::VideoMode(bgSet.getSize().x, bgSet.getSize().y), "SETTING", sf::Style::Default);
 			windowAdd.setFramerateLimit(60);
 			windowAdd.setPosition({ 40,10 });
@@ -343,9 +343,9 @@ bg:
 			sf::Texture ttPlay;
 			sf::Texture anhkhung;
 			sf::Texture anhKey;
-			ttPlay.loadFromFile("playgame.png");
-			anhkhung.loadFromFile("anh1.png");
-			anhKey.loadFromFile("anh2.png");
+			ttPlay.loadFromFile("UI//playgame.png");
+			anhkhung.loadFromFile("UI//anh1.png");
+			anhKey.loadFromFile("UI//anh2.png");
 			window.close();
 			sf::Sprite sPlay;
 			sPlay.setTexture(ttPlay);
@@ -510,8 +510,8 @@ bg:
 
 			sf::Texture BgLang;
 			sf::Texture BgLang1;
-			BgLang.loadFromFile("khung2.png");
-			BgLang1.loadFromFile("khung21.png");
+			BgLang.loadFromFile("UI//khung2.png");
+			BgLang1.loadFromFile("UI//khung21.png");
 		bgHis:
 			sf::RenderWindow windowLang(sf::VideoMode(BgLang.getSize().x, BgLang.getSize().y), "LANGUGES", sf::Style::None);
 			windowLang.setFramerateLimit(60);
@@ -688,7 +688,7 @@ bg:
 						{
 							windowLang.close();
 							sf::Texture texttureLike;
-							texttureLike.loadFromFile("favourite.png");
+							texttureLike.loadFromFile("UI//favourite.png");
 							sf::RenderWindow windowLike(sf::VideoMode(texttureLike.getSize().x, texttureLike.getSize().y), "LIKE", sf::Style::None);
 							windowLike.setFramerateLimit(60);
 							windowLike.setPosition({ 40,10 });
@@ -863,7 +863,7 @@ bg:
 							if (langcheck == 1)
 							{
 								sf::Texture texttureHis;
-								texttureHis.loadFromFile("history.png");
+								texttureHis.loadFromFile("UI//history.png");
 								sf::RenderWindow windowHis(sf::VideoMode(texttureHis.getSize().x, texttureHis.getSize().y), "HISTORY", sf::Style::None);
 								windowHis.setFramerateLimit(60);
 								windowHis.setPosition({ 40,10 });
@@ -1105,7 +1105,7 @@ bg:
 							else if (langcheck == -1)
 							{
 								sf::Texture texttureHis;
-								texttureHis.loadFromFile("historyViet.png");
+								texttureHis.loadFromFile("UI//historyViet.png");
 								sf::RenderWindow windowHis(sf::VideoMode(texttureHis.getSize().x, texttureHis.getSize().y), "HISTORY", sf::Style::None);
 								windowHis.setFramerateLimit(60);
 								windowHis.setPosition({ 40,10 });
