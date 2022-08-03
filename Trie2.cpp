@@ -243,13 +243,11 @@ vector <pair<string, string>> viewHistory(std::string address)
     {
         getline(fin, s);
         getline(fin, u);
-        if (i % 2 == 0)
-            save.push_back(make_pair(s, u));
-        i++;
+        save.push_back(make_pair(s, u));
     }
 
     fin.close();
-    save.resize(save.size() - 1);
+    save.pop_back();
     return save;
 }
 
