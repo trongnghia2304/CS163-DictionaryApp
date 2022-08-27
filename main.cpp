@@ -25,6 +25,8 @@ int main()
 	TrieNode* slangDef = nullptr;
 	TrieNode* emotiondef = nullptr;
 	TrieNode* emotion = nullptr;
+	TrieNode* VietnamEnglish = nullptr;
+	TrieNode* VietnamEnglishDef = nullptr;
 	TrieNode* rootEngLish = nullptr;
 	TrieNode* rootVietNam = nullptr;
 
@@ -32,15 +34,17 @@ int main()
 	bool dicEngViet = false;
 	bool dicSlang = false;
 	bool dicEmotion = false;
+	bool dicVietEng = false;
 
 
 	build_data(englishVietnam, englishVietnamDef, "sample3.txt", '`');
 	build_data(slang, slangDef, "sample1.txt", '`');
 	build_data(emotion, emotiondef, "emotional.txt", '`');
+	build_data(VietnamEnglish, VietnamEnglishDef, "sample4.txt", '`');
 
 	rootEngLish = englishVietnam;
 	rootVietNam = englishVietnamDef;
-	
+
 	sf::Font font;
 	font.loadFromFile("font.ttf");
 	sf::Texture bgText;
@@ -186,8 +190,8 @@ bg:
 					}
 					if (nutNewword.isKickMouse(windowAdd) && event.type == sf::Event::MouseButtonPressed)
 					{
-						rootEngLish = englishVietnamDef;
-						rootVietNam = englishVietnam;
+						rootEngLish = VietnamEnglish;
+						rootVietNam = VietnamEnglishDef;
 						chooseDic = 4;
 						windowAdd.close();
 						goto bg;
@@ -276,20 +280,20 @@ bg:
 							goto bg;
 						}
 
-						if (chooseDic == 4 && !dicEngViet)
+						if (chooseDic == 4 && !dicVietEng)
 						{
 							windowAdd.close();
 							goto bg;
 						}
-						else if (chooseDic == 4 && dicEngViet)
+						else if (chooseDic == 4 && dicVietEng)
 						{
-							TrieNode* curr = englishVietnam;
-							TrieNode* currDef = englishVietnamDef;
-							englishVietnam = nullptr;
-							englishVietnamDef = nullptr;
-							build_data(englishVietnam, englishVietnamDef, "sample3Ori.txt", '`');
-							rootEngLish = englishVietnamDef;
-							rootVietNam = englishVietnam;
+							TrieNode* curr = VietnamEnglish;
+							TrieNode* currDef = VietnamEnglishDef;
+							VietnamEnglish = nullptr;
+							VietnamEnglishDef = nullptr;
+							build_data(VietnamEnglish, VietnamEnglishDef, "sample4Ori.txt", '`');
+							rootEngLish = VietnamEnglish;
+							rootVietNam = VietnamEnglishDef;
 							windowAdd.close();
 							goto bg;
 						}
@@ -339,7 +343,7 @@ bg:
 		}
 		if (nutNewword.isKickMouse(window) && event.type == sf::Event::MouseButtonPressed)
 		{
-			
+
 			sf::Texture ttPlay;
 			sf::Texture anhkhung;
 			sf::Texture anhKey;
@@ -362,7 +366,7 @@ bg:
 			TrieNode* rootkey = rootEngLish;
 			TrieNode* rootdef = rootVietNam;
 
-			
+
 			//Khung key
 			Button khungKey("", { 400.f,90.f }, 22, sf::Color(255, 214, 130), sf::Color::Black);
 			khungKey.setFont(font);
@@ -413,7 +417,7 @@ bg:
 								rootdef = rootVietNam;
 								langcheck = 1;
 							}
-							
+
 						}
 						if (khungDapAn[0].isKickMouse(windowPlay))
 						{
@@ -616,10 +620,10 @@ bg:
 				}
 				if (add_button.isKickMouse(windowLang))
 				{
-					if(langcheck==1)
-						addingWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion);
-					else if(langcheck==-1)
-						addingWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion);
+					if (langcheck == 1)
+						addingWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion, dicVietEng);
+					else if (langcheck == -1)
+						addingWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion, dicVietEng);
 				}
 				if (edit_button.isMouseOver(windowLang))
 				{
@@ -632,9 +636,9 @@ bg:
 				if (edit_button.isKickMouse(windowLang))
 				{
 					if (langcheck == 1)
-						editWordScreen(font, rootEngLish, rootVietNam,chooseDic,dicEngViet,dicSlang,dicEmotion);
+						editWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion, dicVietEng);
 					else if (langcheck == -1)
-						editWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion);
+						editWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion, dicVietEng);
 				}
 				if (del_button.isMouseOver(windowLang))
 				{
@@ -647,9 +651,9 @@ bg:
 				if (del_button.isKickMouse(windowLang))
 				{
 					if (langcheck == 1)
-						deleteWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion);
+						deleteWordScreen(font, rootEngLish, rootVietNam, chooseDic, dicEngViet, dicSlang, dicEmotion, dicVietEng);
 					else if (langcheck == -1)
-						deleteWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion);
+						deleteWordScreen(font, rootVietNam, rootEngLish, chooseDic, dicEngViet, dicSlang, dicEmotion, dicVietEng);
 				}
 				while (windowLang.pollEvent(eventLang))
 				{
@@ -664,7 +668,7 @@ bg:
 								likeWord.push_back(make_pair(tempKey, tempMeaning));
 							}
 						}
-						
+
 						if (posx > 367 && posx < 986 && posy>99 && posy < 153)
 						{
 							noidungnhap.clearString();
@@ -753,38 +757,38 @@ bg:
 								sf::Event eventLike;
 								while (windowLike.pollEvent(eventLike))
 								{
-										if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+									if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+									{
+										float posx = sf::Mouse::getPosition(windowLike).x;
+										float posy = sf::Mouse::getPosition(windowLike).y;
+										if (posx > 218 && posx < 310 && posy>93 && posy < 179)
 										{
-											float posx = sf::Mouse::getPosition(windowLike).x;
-											float posy = sf::Mouse::getPosition(windowLike).y;
-											if (posx > 218 && posx < 310 && posy>93 && posy < 179)
-											{
-												releaseLikeWord("LIKEWORD.txt", likeWord);
-												likeWord.clear();
-												windowLike.close();
-												goto bgHis;
-											}
-											if (posx > 483 && posx < 593 && posy>555 && posy < 605)
-											{
-												if (chisoLike - 2 >= 0)
-													chisoLike -= 2;
-											}
-											if (posx > 732 && posx < 841 && posy>555 && posy < 603)
-											{
-												if (kickcoLike - 1 - chisoLike >= 2)
-													chisoLike += 2;
-											}
-											if (posx > 460 && posx < 507 && posy>316 && posy < 363 && (kickcoLike-chisoLike-1)>=0)
-											{
-												likeWord.erase(likeWord.begin() + kickcoLike - 1 - chisoLike);
-												kickcoLike = likeWord.size();
-											}
-											if (posx > 1069 && posx < 1120 && posy>318 && posy < 366 && (kickcoLike-2-chisoLike)>=0)
-											{
-												likeWord.erase(likeWord.begin() + kickcoLike - 2 - chisoLike);
-												kickcoLike = likeWord.size();
-											}
+											releaseLikeWord("LIKEWORD.txt", likeWord);
+											likeWord.clear();
+											windowLike.close();
+											goto bgHis;
 										}
+										if (posx > 483 && posx < 593 && posy>555 && posy < 605)
+										{
+											if (chisoLike - 2 >= 0)
+												chisoLike -= 2;
+										}
+										if (posx > 732 && posx < 841 && posy>555 && posy < 603)
+										{
+											if (kickcoLike - 1 - chisoLike >= 2)
+												chisoLike += 2;
+										}
+										if (posx > 460 && posx < 507 && posy>316 && posy < 363 && (kickcoLike - chisoLike - 1) >= 0)
+										{
+											likeWord.erase(likeWord.begin() + kickcoLike - 1 - chisoLike);
+											kickcoLike = likeWord.size();
+										}
+										if (posx > 1069 && posx < 1120 && posy>318 && posy < 366 && (kickcoLike - 2 - chisoLike) >= 0)
+										{
+											likeWord.erase(likeWord.begin() + kickcoLike - 2 - chisoLike);
+											kickcoLike = likeWord.size();
+										}
+									}
 									if (kickcoLike - 1 - chisoLike < 0)
 									{
 										n1LikeKey = 0;
@@ -795,14 +799,14 @@ bg:
 									{
 										n1LikeKey = 0;
 										std::vector<string> cumDong1Key = cumTu(likeWord[kickcoLike - 1 - chisoLike].first, 42);
-										for (int i = 0; i < cumDong1Key.size() && i<3; i++)
+										for (int i = 0; i < cumDong1Key.size() && i < 3; i++)
 										{
 											n1LikeKey++;
 											expressKhung1KeyLike[i].newstring(cumDong1Key[i]);
 										}
 										n1LikeMeaning = 0;
 										std::vector<string> cumDong1meaning = cumTu(likeWord[kickcoLike - 1 - chisoLike].second, 42);
-										for (int i = 0; i < cumDong1meaning.size() && i<3; i++)
+										for (int i = 0; i < cumDong1meaning.size() && i < 3; i++)
 										{
 											n1LikeMeaning++;
 											expressKhung1meaningLike[i].newstring(cumDong1meaning[i]);
@@ -818,14 +822,14 @@ bg:
 									{
 										n2LikeKey = 0;
 										std::vector<string> cumDong2Key = cumTu(likeWord[kickcoLike - 2 - chisoLike].first, 47);
-										for (int i = 0; i < cumDong2Key.size() && i<3; i++)
+										for (int i = 0; i < cumDong2Key.size() && i < 3; i++)
 										{
 											n2LikeKey++;
 											expressKhung2KeyLike[i].newstring(cumDong2Key[i]);
 										}
 										n2LikeMeaning = 0;
 										std::vector<string> cumDong2meaning = cumTu(likeWord[kickcoLike - 2 - chisoLike].second, 47);
-										for (int i = 0; i < cumDong2meaning.size() && i<3; i++)
+										for (int i = 0; i < cumDong2meaning.size() && i < 3; i++)
 										{
 											n2LikeMeaning++;
 											expressKhung2meaningLike[i].newstring(cumDong2meaning[i]);
@@ -1016,7 +1020,7 @@ bg:
 										n1 = 0;
 										expressKhung1Key.newstring(khungluu[kichco - 1 - chiso].first);
 										std::vector<string> cumDong1 = cumTu(khungluu[kichco - 1 - chiso].second, 50);
-										for (int i = 0; i < cumDong1.size() && i<3; i++)
+										for (int i = 0; i < cumDong1.size() && i < 3; i++)
 										{
 											n1++;
 											expressKhung1meaning[i].newstring(cumDong1[i]);
@@ -1036,7 +1040,7 @@ bg:
 										n2 = 0;
 										expressKhung2Key.newstring(khungluu[kichco - 2 - chiso].first);
 										std::vector<string> cumDong2 = cumTu(khungluu[kichco - 2 - chiso].second, 50);
-										for (int i = 0; i < cumDong2.size() && i<3; i++)
+										for (int i = 0; i < cumDong2.size() && i < 3; i++)
 										{
 											n2++;
 											expressKhung2meaning[i].newstring(cumDong2[i]);
@@ -1053,7 +1057,7 @@ bg:
 										n3 = 0;
 										expressKhung3Key.newstring(khungluu[kichco - 3 - chiso].first);
 										std::vector<string> cumDong3 = cumTu(khungluu[kichco - 3 - chiso].second, 50);
-										for (int i = 0; i < cumDong3.size() && i<3; i++)
+										for (int i = 0; i < cumDong3.size() && i < 3; i++)
 										{
 											n3++;
 											expressKhung3meaning[i].newstring(cumDong3[i]);
@@ -1070,7 +1074,7 @@ bg:
 										n4 = 0;
 										expressKhung4Key.newstring(khungluu[kichco - 4 - chiso].first);
 										std::vector<string> cumDong4 = cumTu(khungluu[kichco - 4 - chiso].second, 50);
-										for (int i = 0; i < cumDong4.size() && i<3; i++)
+										for (int i = 0; i < cumDong4.size() && i < 3; i++)
 										{
 											n4++;
 											expressKhung4meaning[i].newstring(cumDong4[i]);
@@ -1385,8 +1389,8 @@ bg:
 							expressButton[i].setText(hello[i].first);
 						}
 					}
-					
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && eventLang.type==sf::Event::KeyPressed)
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && eventLang.type == sf::Event::KeyPressed)
 					{
 						congtac = false;
 						n = 0;
@@ -1402,7 +1406,7 @@ bg:
 						else if (check)
 						{
 							std::vector<string> cumDong = cumTu(meaning, 80);
-							for (int i = 0; i < cumDong.size() && i<5; i++)
+							for (int i = 0; i < cumDong.size() && i < 5; i++)
 							{
 								n++;
 								expressKhung[i].newstring(cumDong[i]);
@@ -1494,16 +1498,20 @@ bg:
 		window.display();
 	}
 	if (dicEngViet)
-		saveDict(englishVietnam,"sample3.txt");
+		saveDict(englishVietnam, "sample3.txt");
 	if (dicSlang)
 		saveDict(slang, "sample1.txt");
 	if (dicEmotion)
 		saveDict(emotion, "emotional.txt");
-		
+	if (dicVietEng)
+		saveDict(VietnamEnglish, "sample4.txt");
+
 	deallocate(englishVietnam);
 	deallocate(englishVietnamDef);
 	deallocate(slang);
 	deallocate(slangDef);
 	deallocate(emotion);
 	deallocate(emotiondef);
+	deallocate(VietnamEnglish);
+	deallocate(VietnamEnglishDef);
 }
